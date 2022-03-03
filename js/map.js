@@ -41,21 +41,21 @@
 const map = new ol.Map({
   target: "map",
   layers: [
-    // new ol.layer.Tile({
-    //   source: new ol.source.XYZ({
-    //     attributions: "Copyright:© 2013 ESRI, i-cubed, GeoEye",
-    //     url:
-    //       "https://services.arcgisonline.com/arcgis/rest/services/" +
-    //       "ESRI_Imagery_World_2D/MapServer/tile/{z}/{y}/{x}",
-    //     maxZoom: 15,
-    //     projection: "EPSG:4326",
-    //     tileSize: 512, // the tile size supported by the ArcGIS tile service
-    //     maxResolution: 180 / 512, // Esri's tile grid fits 180 degrees on one 512 px tile
-    //     wrapX: true,
-    //   }),
-    // }),
     new ol.layer.Tile({
-      source: new ol.source.Stamen({ layer: 'watercolor' }) 
+      source: new ol.source.XYZ({
+        attributions: "Copyright:© 2013 ESRI, i-cubed, GeoEye",
+        url:
+          "https://services.arcgisonline.com/arcgis/rest/services/" +
+          "ESRI_Imagery_World_2D/MapServer/tile/{z}/{y}/{x}",
+        maxZoom: 15,
+        projection: "EPSG:4326",
+        tileSize: 512, // the tile size supported by the ArcGIS tile service
+        maxResolution: 180 / 512, // Esri's tile grid fits 180 degrees on one 512 px tile
+        wrapX: true,
+      }),
+    }),
+    new ol.layer.Tile({
+      source: new ol.source.Stamen({ layer: 'watercolor' }) ,opacity:0.6
     }),
     new ol.layer.Vector({
       source: new ol.source.Vector({
