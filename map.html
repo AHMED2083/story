@@ -15,14 +15,56 @@
     <link href="css/Lora.css" rel="stylesheet" />
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="css/styles.css" rel="stylesheet" />
-    <link rel="stylesheet" href="css/ol.css" type="text/css">
-
     <script src="js/ol.js"></script>
+    <link rel="stylesheet" href="css/ol.css" type="text/css">
+    <link rel="stylesheet" href="css/ol-ext.css" />
+    <script type="text/javascript" src="js/ol-ext.js"></script>
 
+
+    <script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
+
+
+    <!--   <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+
+
+  <link rel="stylesheet" href="https://openlayers.org/en/latest/css/ol.css" />
+  <script type="text/javascript" src="https://openlayers.org/en/latest/build/ol.js"></script>
+  <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL,Object.assign"></script>
+  
+
+  <link rel="stylesheet" href="https://viglino.github.io/ol-ext/dist/ol-ext.css" />
+  <script type="text/javascript" src="https://viglino.github.io/ol-ext/dist/ol-ext.js"></script>
+ 
+  <script src="https://unpkg.com/elm-pep"></script> -->
     <style>
         .map {
             height: 600px;
             width: 100%;
+        }
+
+        .ol-zoom {
+            left: auto;
+            right: .5em;
+        }
+
+        #story {
+            /*
+      height: 400px;
+      */
+        }
+
+        #story img {
+            display: block;
+            margin: auto;
+            max-width: 100%;
+        }
+
+        #story .chapter.ol-select {
+            background-color: rgba(255, 255, 255, .8);
+        }
+
+        .options a {
+            cursor: pointer;
         }
     </style>
 </head>
@@ -37,7 +79,7 @@
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-dark py-lg-4" id="mainNav">
         <div class="container">
-            <a class="navbar-brand text-uppercase fw-bold d-lg-none" href="index.html">Start Bootstrap</a>
+            <a class="navbar-brand text-uppercase fw-bold d-lg-none" href="index.html">Geo-History</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
@@ -45,6 +87,7 @@
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="index.html">Home</a></li>
                     <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="map.html">Map</a></li>
+                    <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="storyMap.html">Story Map</a></li>
                     <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="about.html">About</a></li>
                     <!-- <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="products.html">Products</a></li>
                         <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="store.html">Store</a></li> -->
@@ -56,29 +99,101 @@
         <div class="container">
             <div class="row">
                 <div class="col-xl-12 mx-auto">
-                    <div id="map" class="map"></div>
-                    <div class="cta-inner bg-faded text-center rounded">
-                        <h2 class="section-heading mb-5">
-                            <span class="section-heading-upper">Come On In</span>
-                            <span class="section-heading-lower">We're Open</span>
-                        </h2>
+                    <div id="map" style="width:100%; height:600px;"></div>
 
-                        <p class="address mb-5">
-                            <em>
-                                <strong>Centre des Techniques Spatiales</strong>
+                    <div class="options">
+                        Set chapters:
+                        <ol>
+                            <li>
+                                <a onclick="story.setChapter('Paris')">Paris</a>
+                            </li>
+                            <li>
+                                <a onclick="story.setChapter('London')">London</a>
+                            </li>
+                            <li>
+                                <a onclick="story.setChapter('Berlin')">Berlin</a>
+                            </li>
+                        </ol>
+                        Click on the image to show it fullscreen.
+                    </div>
+
+                    <div id="story">
+                        <div class="chapter" name="start" data-lon="3" data-lat="32"
+                            data-zoom="6" data-animation="flyto">
+                            <h2>Capitals</h2>
+                            <p>
+                                A story map with Openlayers.
                                 <br />
-                                Arzew Oran
-                            </em>
-                        </p>
-                        <p class="mb-0">
-                            <small><em>Call</em></small>
-                            <br />
-                            (213) 41 77 xxxxxx
-                        </p>
+                                <span style="font-size: .8em;">
+                                    text & images &copy; Wikipedia
+                                </span>
+                            </p>
+                            <div class="ol-scroll-next"><span>Start</span></div>
+                        </div>
+                        <div class="chapter" name="Paris" data-lon="2.351828" data-lat="48.856578" data-zoom="6"
+                            data-animation="flyto">
+                            <h2>Paris</h2>
+                            <img data-title="Paris"
+                                src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Seine_and_Eiffel_Tower_from_Tour_Saint_Jacques_2013-08.JPG/600px-Seine_and_Eiffel_Tower_from_Tour_Saint_Jacques_2013-08.JPG">
+                            <p>
+                                Paris is the capital and most populous city of France, with an area of 105 square
+                                kilometres (41 square miles) and a population of 2,206,488. Since the 17th century,
+                                Paris has been one of Europe's major centres of finance, commerce, fashion, science, and
+                                the arts.
+                            </p>
+                        </div>
+                        <div class="chapter" name="London" data-lon="-0.1275" data-lat="51.507222" data-zoom="6"
+                            data-animation="flyto">
+                            <h2>London</h2>
+                            <img data-title="London"
+                                src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/London_Montage_L.jpg/600px-London_Montage_L.jpg">
+                            <p>
+                                London is the capital and largest city of both the United Kingdom and England. Standing
+                                on the River Thames in southeastern England, 50 miles (80 km) upstream from its estuary
+                                with the North Sea, London has been a major settlement for two millennia. Londinium was
+                                founded by the Romans. The City of London, London's ancient core − an area of just 1.12
+                                square miles (2.9 km2) and colloquially known as the Square Mile − retains its medieval
+                                boundaries.
+                            </p>
+                        </div>
+                        <div class="chapter" name="Berlin" data-lon="13.383333" data-lat="52.516667" data-zoom="6"
+                            data-animation="flyto">
+                            <h2>Berlin</h2>
+                            <img data-title="Berlin"
+                                src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Berlin_Skyline_Fernsehturm_02.jpg/600px-Berlin_Skyline_Fernsehturm_02.jpg">
+                            <p>
+                                Berlin is the capital and largest city of Germany by both area and population. Its
+                                3,711,930 (2017) inhabitants make it the second most populous city proper of the
+                                European Union after London. The city is one of Germany's 16 federal states. It is
+                                surrounded by the state of Brandenburg and forms the center of the Berlin/Brandenburg
+                                Metropolitan Region, which is, with 6,004,857 (2015) inhabitants and area of 30,370
+                                square km, Germany's third-largest metropolitan region after the Rhine-Ruhr and
+                                Rhine-Main regions.
+                            </p>
+                            <div class="ol-scroll-top"><span>Top</span></div>
+                        </div>
+                        <div class="cta-inner bg-faded text-center rounded">
+                            <h2 class="section-heading mb-5">
+                                <span class="section-heading-upper">Come On In</span>
+                                <span class="section-heading-lower">We're Open</span>
+                            </h2>
+
+                            <p class="address mb-5">
+                                <em>
+                                    <strong>Centre des Techniques Spatiales</strong>
+                                    <br />
+                                    Arzew Oran
+                                </em>
+                            </p>
+                            <p class="mb-0">
+                                <small><em>Call</em></small>
+                                <br />
+                                (213) 41 77 xxxxxx
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
     </section>
     <section class="page-section about-heading">
         <div class="container">
